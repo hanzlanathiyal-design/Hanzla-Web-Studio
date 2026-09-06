@@ -1,0 +1,117 @@
+/* Global typography, theme tokens, and custom subtle scrollbars */
+@layer base {
+  :root {
+    /* STRICT BRAND PALETTE */
+    --deep-navy: #0B1726;
+    --gold: #D4A72C;
+    --gold-hover: #C49622;
+    --off-white: #F7F7F5;
+    --dark-text: #111827;
+    --soft-gray: #E5E7EB;
+
+    /* Surfaces & Borders */
+    --surface-canvas: #F7F7F5;
+    --surface-card: #FFFFFF;
+    --surface-border: #E5E7EB;
+    --surface-border-hover: #D1D5DB;
+    --surface-muted: #F3F4F6;
+  }
+
+  html {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #111827;
+    background-color: #F7F7F5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  #root {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Manrope', 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Accessible focus ring utilities & global focus-visible */
+:focus-visible {
+  outline: 2px solid #0B1726;
+  outline-offset: 2px;
+}
+
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  outline: 2px solid #0B1726;
+  outline-offset: 2px;
+}
+
+/* For elements on dark backgrounds (Deep Navy #0B1726) */
+.dark-focus:focus-visible,
+[data-theme="dark"] :focus-visible {
+  outline: 2px solid #D4A72C;
+  outline-offset: 2px;
+}
+
+/* Respect user's motion preferences (Vestibular safety) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom refined subtle scrollbar in Soft Gray */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F7F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #E5E7EB;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+/* Shimmer animation for loading skeleton */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #F3F4F6 25%, #E5E7EB 50%, #F3F4F6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

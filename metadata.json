@@ -1,0 +1,6 @@
+{
+  "name": "Hanzla Web Studio",
+  "description": "Hanzla Web Studio creates modern, responsive and high-performance websites for businesses, professionals and brands.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

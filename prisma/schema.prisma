@@ -1,0 +1,142 @@
+// Prisma schema for Hanzla Web Studio
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum InquiryStatus {
+  NEW
+  REVIEWING
+  PROPOSAL_SENT
+  CLOSED
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CLOSED
+}
+
+model Lead {
+  id           String     @id @default(cuid())
+  name         String     @db.VarChar(100)
+  businessName String     @db.VarChar(150)
+  email        String     @db.VarChar(255)
+  phone        String?    @db.VarChar(35)
+  businessType String?    @db.VarChar(80)
+  projectType  String     @db.VarChar(80)
+  budget       String?    @db.VarChar(60)
+  message      String     @db.Text
+  status       LeadStatus @default(NEW)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([status])
+  @@index([email])
+  @@index([createdAt(sort: Desc)])
+  @@index([status, createdAt(sort: Desc)])
+  @@map("leads")
+}
+
+enum ProjectType {
+  HIGH_VELOCITY_LAUNCH
+  COMPLETE_BUSINESS_WEBSITE
+  HEADLESS_COMMERCE_PLATFORM
+  CUSTOM_WEB_APPLICATION
+  ENTERPRISE_REPLATFORM
+}
+
+model Inquiry {
+  id          String        @id @default(cuid())
+  referenceId String        @unique
+  name        String
+  email       String
+  company     String?
+  industry    String
+  projectType String
+  budget      String
+  timeline    String        @default("Flexible")
+  message     String
+  status      InquiryStatus @default(NEW)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  bookings Booking[]
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model AuditRecord {
+  id                     String   @id @default(cuid())
+  auditCode              String   @unique
+  url                    String
+  industry               String
+  primaryGoal            String?
+  overallScore           Int
+  performanceScore       Int
+  seoScore               Int
+  uxScore                Int
+  conversionScore        Int
+  keyFindings            String[]
+  recommendedStack       String[]
+  estimatedRevenueUplift String
+  createdAt              DateTime @default(now())
+
+  @@index([url])
+  @@index([industry])
+}
+
+model Booking {
+  id           String   @id @default(cuid())
+  bookingCode  String   @unique
+  name         String
+  email        String
+  scheduledAt  DateTime
+  timeSlot     String
+  projectBrief String?
+  meetLink     String?
+  createdAt    DateTime @default(now())
+  inquiryId    String?
+  inquiry      Inquiry? @relation(fields: [inquiryId], references: [id], onDelete: SetNull)
+
+  @@index([email])
+  @@index([scheduledAt])
+}
+
+model ClientSprint {
+  id              String   @id @default(cuid())
+  clientName      String
+  projectName     String
+  currentSprint   Int      @default(1)
+  totalSprints    Int      @default(4)
+  status          String
+  stagingUrl      String?
+  lighthouseScore Int?     @default(98)
+  leadEngineer    String   @default("Hanzla Nathiyal")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Testimonial {
+  id              String   @id @default(cuid())
+  clientName      String
+  role            String
+  company         String
+  industry        String
+  rating          Int      @default(5)
+  highlightMetric String
+  quote           String
+  projectScope    String
+  avatarUrl       String?
+  featured        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+}

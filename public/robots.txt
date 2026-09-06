@@ -1,0 +1,10 @@
+# robots.txt for Hanzla Web Studio
+# https://hanzlawebstudio.com
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /api/admin/
+
+# Sitemap index
+Sitemap: https://hanzlawebstudio.com/sitemap.xml
